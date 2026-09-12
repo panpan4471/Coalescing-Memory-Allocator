@@ -14,9 +14,8 @@ static uint64_t now_ns(void) {
     return (uint64_t)ts.tv_sec * 1000000000ULL + (uint64_t)ts.tv_nsec;
 }
 
-/*
- * Deterministic pseudo-random generator so the benchmark is repeatable.
- */
+// Deterministic pseudo-random generator so the benchmark is repeatable.
+
 static uint32_t rng_state = 0x12345678u;
 
 static uint32_t next_rand(void) {

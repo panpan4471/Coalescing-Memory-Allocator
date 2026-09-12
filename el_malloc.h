@@ -32,11 +32,10 @@
 #define EL_END_BLOCK     'E'    // block state indicating dummy ending node in a list
 #define EL_UNINITIALIZED  0     // indication of uninitialized data
 
-// type which is a "header" for a block of memory; containts info on
+// Type which is a "header" for a block of memory; contains info on
 // size, whether the block is available or in use, and links to the
-// next/prev blocks in a doubly linked list. This data structure
-// appears immediately before a block of memory that is tracked by the
-// allocator.
+// next/prev blocks in a doubly linked list. This data structure appears
+// immediately before a block of memory that is tracked by the allocator.
 typedef struct block {
   size_t size;                  // number of bytes of memory in this block
   char state;                   // either EL_AVAILABLE or EL_USED
@@ -44,11 +43,11 @@ typedef struct block {
   struct block *prev;           // pointer to previous block in same list
 } el_blockhead_t;
 
-// Type for the "footer" of a block; indicates size of the preceding
-// block so that its header el_blockhead_t can be found with pointer
-// arithmetic. This data appears immediately after an area of memory
-// that may be used by a user or is free. Immediately after it is
-// either another header (el_blockhead_t) or the end of the heap.
+// Type which is a "footer" for a block of memory; indicates size of the
+// preceding block so that its header can be found with pointer arithmetic.
+// This data appears immediately after an area of memory that may be used 
+// by a user or is free. Immediately after it is either another header
+//  or the end of the heap.
 typedef struct {
   size_t size;
 } el_blockfoot_t;
@@ -57,8 +56,8 @@ typedef struct {
 // combination of the size of the header and footer.
 #define EL_BLOCK_OVERHEAD (sizeof(el_blockhead_t) + sizeof(el_blockfoot_t))
 
-// Type for a list of blocks; doubly linked with a fixed
-// "dummy" node at the beginning and end which do not contain any
+// Type for a list of blocks; doubly linked with fixed
+// "dummy" nodes at the beginning and end that do not contain any
 // data. List tracks its length and number of bytes in use.
 typedef struct {
   el_blockhead_t beg_actual;    // fixed node at beginning of list; state is EL_BEGIN_BLOCK
@@ -111,4 +110,3 @@ void el_merge_block_with_above(el_blockhead_t *lower);
 void el_free(void *ptr);
 
 int el_append_pages_to_heap(int npages);
-
